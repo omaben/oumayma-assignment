@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsDate, IsEnum, IsOptional, IsString, ValidateNested } from "class-validator";
+import { IsDate, IsEnum, IsMongoId, IsOptional, IsString, ValidateNested } from "class-validator";
 import { PaginationDto } from "src/common/pagination.dto";
 import { TaskStatus } from "src/common/task.status.enum";
 
@@ -33,6 +33,21 @@ export class FindTaskDto {
     })
     @IsOptional()  // Optional by default is NOT_STARTED
     status?: TaskStatus;
+
+    @IsMongoId()
+    @ApiProperty({ example: '671a0649ee70eaf8364216c7', description: 'User ID of the assignee' })
+    @IsOptional()
+    assignee?: string;
+
+    @IsMongoId()
+    @ApiProperty({ example: '671a0649ee70eaf8364216c7', description: 'User ID of the created by' })
+    @IsOptional()
+    createdBy?: string;
+
+    @IsMongoId()
+    @ApiProperty({ example: '671a0649ee70eaf8364216c7', description: 'User ID of the updated by' })
+    @IsOptional()
+    updatedBy?: string;
 }
 
 export class TaskListDto extends PaginationDto {

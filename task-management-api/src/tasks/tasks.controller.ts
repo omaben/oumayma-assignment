@@ -14,6 +14,7 @@ import { UpdateTaskStatusDto } from './dto/update-task-status';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { Task } from './schemas/task.schema';
 import { TasksService } from './tasks.service';
+import { AssigneTaskDto } from './dto/assigne-task';
 
 @ApiTags('Tasks')
 @Controller('tasks')
@@ -83,7 +84,21 @@ export class TasksController {
     @Body() updateTaskStatusDto: UpdateTaskStatusDto,
     @GetUser() user: UserDocument
   ): Promise<Task> {
-    return await this.tasksService.updateStatus(params.id, updateTaskStatusDto.status, user);
+    return await this.tasksService.updateStatus(params.id, updateTaskStatusDto, user);
+  }
+
+  @Put(':id/assignee')
+  @UseGuards(JwtAuthGuard, IpGuard, RolesGuard)
+  @ApiOperation({
+    summary: 'Assignee task',
+    description: 'Assignee task by <b>admin</b> role.',
+  })
+  async assigneTask(
+    @Param() params: IdParamDto,
+    @Body() assigneTaskDto: AssigneTaskDto,
+    @GetUser() user: UserDocument
+  ): Promise<Task> {
+    return await this.tasksService.assigneTask(params.id, assigneTaskDto, user);
   }
 
   @Delete(':id')

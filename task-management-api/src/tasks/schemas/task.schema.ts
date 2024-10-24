@@ -21,10 +21,14 @@ export class Task {
 
   @Prop({ type: Boolean, required: true })
   isDeleted: boolean;
-  
+
   @Prop({ type: String, enum: TaskStatus, default: TaskStatus.NOT_STARTED })
   status: TaskStatus;
   
+  // Add assignee field referencing User
+  @Prop({ type: Types.ObjectId, ref: 'User' })
+  assignee: Types.ObjectId;
+
   @Prop({ type: Types.ObjectId, ref: 'User' })
   createdBy: Types.ObjectId; // Use Types.ObjectId for type safety
 

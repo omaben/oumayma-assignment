@@ -3,12 +3,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { ErrorFunction } from 'src/common/error';
+import { TaskStatus } from 'src/common/task.status.enum';
+import { UserDocument } from 'src/users/schemas/user.schema';
+import { AssigneTaskDto } from './dto/assigne-task';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { TaskListDto } from './dto/list-task.dto';
-import { Task, TaskDocument } from './schemas/task.schema';
+import { UpdateTaskStatusDto } from './dto/update-task-status';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { UserDocument } from 'src/users/schemas/user.schema';
-import { TaskStatus } from 'src/common/task.status.enum';
+import { Task, TaskDocument } from './schemas/task.schema';
 
 @Injectable()
 export class TasksService {
@@ -61,7 +63,7 @@ export class TasksService {
   }> {
     try {
       const { find, page, limit } = findTaskDto;
-      const { id, date, description, title, status } = find || {};
+      const { id, date, description, title, status, assignee, updatedBy, createdBy } = find || {};
       const countTasks = await this.taskModel.countDocuments({
         isDeleted: false,
         ...(id && { _id: id }),
@@ -69,6 +71,10 @@ export class TasksService {
         ...(status && { status: status }),
         ...(description && { description: description }),
         ...(date && { date: date }),
+        ...(assignee && { assignee: new Types.ObjectId(assignee.toString()) }),
+        ...(createdBy && { createdBy: new Types.ObjectId(createdBy.toString()) }),
+        ...(updatedBy && { updatedBy: new Types.ObjectId(updatedBy.toString()) })
+
       });
       const tasks = await this.taskModel.find({
         isDeleted: false,
@@ -77,6 +83,9 @@ export class TasksService {
         ...(status && { status: status }),
         ...(description && { description: description }),
         ...(date && { date: date }),
+        ...(assignee && { assignee: new Types.ObjectId(assignee.toString()) }),
+        ...(createdBy && { createdBy: new Types.ObjectId(createdBy.toString()) }),
+        ...(updatedBy && { updatedBy: new Types.ObjectId(updatedBy.toString()) })
       }).select({
         __v: 0
       }).sort({ 'updatedAt': -1 })
@@ -188,7 +197,7 @@ export class TasksService {
 
   }
 
-  async updateStatus(task_id: string, status: TaskStatus, user: UserDocument): Promise<Task> {
+  async updateStatus(task_id: string, updateStatus: UpdateTaskStatusDto, user: UserDocument): Promise<Task> {
     const task = await this.taskModel.findOne({
       ...(task_id && { _id: task_id }),
       isDeleted: false
@@ -198,7 +207,22 @@ export class TasksService {
       throw new BadRequestException('Task not found.');
     }
 
-    task.status = status;
+    task.status = updateStatus.status;
+    task.updatedBy = new Types.ObjectId(user._id.toString()); // Convert user._id to ObjectId
+    return task.save();
+  }
+
+  async assigneTask(task_id: string, assignTask: AssigneTaskDto, user: UserDocument): Promise<Task> {
+    const task = await this.taskModel.findOne({
+      ...(task_id && { _id: task_id }),
+      isDeleted: false
+    });
+
+    if (!task) {
+      throw new BadRequestException('Task not found.');
+    }
+
+    task.assignee = new Types.ObjectId(assignTask.assignee.toString());
     task.updatedBy = new Types.ObjectId(user._id.toString()); // Convert user._id to ObjectId
     return task.save();
   }
