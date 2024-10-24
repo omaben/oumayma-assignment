@@ -3,7 +3,7 @@ import { throwError } from "rxjs";
 
 export const ErrorFunction = (err: any) => {
   if (err.response) {
-    return { success: false, code: err.status, result: err.response?.data?.error };
+    return { success: false, code: err.status, result: err.response?.data?.error || err.response?.message };
   }
   else if (err.code == 11000) {
     return throwError(() => new ConflictException({ code: 409, duplicatedData: JSON.parse(JSON.stringify(err.keyValue)), message: `Duplicated ` }));
