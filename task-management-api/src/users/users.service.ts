@@ -56,17 +56,20 @@ export class UsersService {
     try {
       const { find, page, limit } = findUserDto;
       const { id, username, role } = find || {};
-      const countUsers = await this.userModel.countDocuments({
-        isDeleted: false,
+      const filter = {
         ...(id && { _id: id }),
         ...(username && { username: username }),
         ...(role && { role: role }),
+      }
+      
+      const countUsers = await this.userModel.countDocuments({
+        isDeleted: false,
+        ...filter
       });
+
       const users = await this.userModel.find({
         isDeleted: false,
-        ...(id && { _id: id }),
-        ...(username && { username: username }),
-        ...(role && { role: role })
+        ...filter
       }).select({
         __v: 0
       }).sort({ 'updatedAt': -1 })

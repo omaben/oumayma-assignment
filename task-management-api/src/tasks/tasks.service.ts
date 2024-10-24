@@ -11,6 +11,7 @@ import { TaskListDto } from './dto/list-task.dto';
 import { UpdateTaskStatusDto } from './dto/update-task-status';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { Task, TaskDocument } from './schemas/task.schema';
+import { Role } from 'src/common/user.role.enum';
 
 @Injectable()
 export class TasksService {
@@ -57,35 +58,36 @@ export class TasksService {
   }
 
 
-  async list(findTaskDto: TaskListDto): Promise<{
+  async list(findTaskDto: TaskListDto, user: UserDocument): Promise<{
     count: number,
     tasks: Task[]
   }> {
     try {
       const { find, page, limit } = findTaskDto;
       const { id, date, description, title, status, assignee, updatedBy, createdBy } = find || {};
+      const filter = {
+        ...(id && { _id: id }),
+        ...(title && { title: title }),
+        ...(status && { status: status }),
+        ...(description && { description: description }),
+        ...(date && { date: date }),
+        ...(assignee && { assignee: new Types.ObjectId(assignee.toString()) }),
+        ...(createdBy && { createdBy: new Types.ObjectId(createdBy.toString()) }),
+        ...(updatedBy && { updatedBy: new Types.ObjectId(updatedBy.toString()) })
+      }
+      // allow dev to see only their tasks, not all tasks
+      if (user.role === Role.DEV) {
+        filter.assignee = new Types.ObjectId(user._id.toString())
+      }
+
       const countTasks = await this.taskModel.countDocuments({
         isDeleted: false,
-        ...(id && { _id: id }),
-        ...(title && { title: title }),
-        ...(status && { status: status }),
-        ...(description && { description: description }),
-        ...(date && { date: date }),
-        ...(assignee && { assignee: new Types.ObjectId(assignee.toString()) }),
-        ...(createdBy && { createdBy: new Types.ObjectId(createdBy.toString()) }),
-        ...(updatedBy && { updatedBy: new Types.ObjectId(updatedBy.toString()) })
-
+        ...filter
       });
+
       const tasks = await this.taskModel.find({
         isDeleted: false,
-        ...(id && { _id: id }),
-        ...(title && { title: title }),
-        ...(status && { status: status }),
-        ...(description && { description: description }),
-        ...(date && { date: date }),
-        ...(assignee && { assignee: new Types.ObjectId(assignee.toString()) }),
-        ...(createdBy && { createdBy: new Types.ObjectId(createdBy.toString()) }),
-        ...(updatedBy && { updatedBy: new Types.ObjectId(updatedBy.toString()) })
+        ...filter
       }).select({
         __v: 0
       }).sort({ 'updatedAt': -1 })

@@ -41,8 +41,9 @@ export class TasksController {
   })
   list(
     @Body() findTaskDto: TaskListDto,
+    @GetUser() user: UserDocument
   ) {
-    return this.tasksService.list(findTaskDto);
+    return this.tasksService.list(findTaskDto, user);
   }
 
   @Get(':id')
