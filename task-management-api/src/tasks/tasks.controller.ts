@@ -37,7 +37,6 @@ export class TasksController {
   @UseGuards(JwtAuthGuard, IpGuard, RolesGuard)
   @ApiOperation({
     summary: 'List of tasks',
-    description: 'Get a list of tasks by <b>admin</b> role.'
   })
   list(
     @Body() findTaskDto: TaskListDto,
@@ -50,7 +49,6 @@ export class TasksController {
   @UseGuards(JwtAuthGuard, IpGuard, RolesGuard)
   @ApiOperation({
     summary: 'Get task details',
-    description: 'Get the task details by <b>admin</b> role.'
   })
   async get(
     @Param() params: IdParamDto,
@@ -78,7 +76,6 @@ export class TasksController {
   @UseGuards(JwtAuthGuard, IpGuard, RolesGuard)
   @ApiOperation({
     summary: 'Update task status',
-    description: 'Update the status of a task by <b>admin</b> role.',
   })
   async updateStatus(
     @Param() params: IdParamDto,
@@ -90,6 +87,7 @@ export class TasksController {
 
   @Put(':id/assignee')
   @UseGuards(JwtAuthGuard, IpGuard, RolesGuard)
+  @Roles([Role.ADMIN])
   @ApiOperation({
     summary: 'Assignee task',
     description: 'Assignee task by <b>admin</b> role.',
