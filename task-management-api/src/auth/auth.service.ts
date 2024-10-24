@@ -19,7 +19,7 @@ export class AuthService {
 
     return {
       _id: new mongoose.Types.ObjectId(user['_id']).toString(),
-      name: user.username,
+      username: user.username,
       password: user.password,
       role: user.role,
     };
@@ -29,7 +29,7 @@ export class AuthService {
     const payload = {
       _id: user._id,
       password: user.password,
-      name: user.name,
+      username: user.username,
       role: user.role,
       ip: ip
     };

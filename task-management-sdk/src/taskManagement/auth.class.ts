@@ -9,7 +9,7 @@ export class Auth {
             const response = await axios.post(`${this.baseUrl}/auth/login`, dto);
             return {
                 user:{
-                    username: response.data.name,
+                    username: response.data.username,
                     role: response.data.role,
                 },
                 token: response.data.access_token,
@@ -28,7 +28,14 @@ export class Auth {
                     jwt: `${token}`, // Include token in the Authorization header
                 },
             });
-            return response.data;
+            return {
+                user:{
+                    username: response.data.username,
+                    role: response.data.role,
+                },
+                success: true,
+                message: 'Get Profil successful'
+            };
         } catch (error: any) {
             throw error.response ? error.response.data : error;
         }

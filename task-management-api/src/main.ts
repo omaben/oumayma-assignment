@@ -13,7 +13,7 @@ async function bootstrap() {
   app.use(cookieParser());
   // Enable CORS
   app.enableCors({
-    origin: 'http://localhost:3001', // Add the correct front-end URL here
+    origin: 'http://localhost:3000', // Add the correct front-end URL here
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // If you need to send cookies, tokens, etc.
   });

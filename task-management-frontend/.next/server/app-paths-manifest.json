@@ -1,0 +1,6 @@
+{
+  "/auth/sign-in/page": "app/auth/sign-in/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/(auth)/page": "app/(auth)/page.js",
+  "/(auth)/errors/not-authorized/page": "app/(auth)/errors/not-authorized/page.js"
+}

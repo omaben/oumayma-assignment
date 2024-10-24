@@ -1,0 +1,44 @@
+{
+  "node": {
+    "3c6f5504e1fa552949dede0ecbcdea653faac40c": {
+      "workers": {
+        "app/(auth)/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5Coumayma-assignment%5C%5Ctask-management-frontend%5C%5Csrc%5C%5Clib%5C%5Csettings%5C%5Cget-settings.ts%22%2C%5B%22getSettings%22%5D%5D%5D&__client_imported__=!",
+        "app/_not-found/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5Coumayma-assignment%5C%5Ctask-management-frontend%5C%5Csrc%5C%5Clib%5C%5Csettings%5C%5Cget-settings.ts%22%2C%5B%22getSettings%22%5D%5D%5D&__client_imported__=!",
+        "app/auth/sign-in/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5Coumayma-assignment%5C%5Ctask-management-frontend%5C%5Csrc%5C%5Clib%5C%5Csettings%5C%5Cget-settings.ts%22%2C%5B%22getSettings%22%5D%5D%5D&__client_imported__=!",
+        "app/(auth)/errors/not-authorized/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5Coumayma-assignment%5C%5Ctask-management-frontend%5C%5Csrc%5C%5Clib%5C%5Csettings%5C%5Cget-settings.ts%22%2C%5B%22getSettings%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/(auth)/page": "rsc",
+        "app/_not-found/page": "rsc",
+        "app/auth/sign-in/page": "rsc",
+        "app/(auth)/errors/not-authorized/page": "rsc"
+      }
+    },
+    "8aac2a1644a38bbfbd5ee57603cce00a6219a69e": {
+      "workers": {
+        "app/(auth)/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5Coumayma-assignment%5C%5Ctask-management-frontend%5C%5Csrc%5C%5Clib%5C%5Cauth%5C%5Cset-auth.ts%22%2C%5B%22setAuth%22%5D%5D%2C%5B%22D%3A%5C%5Coumayma-assignment%5C%5Ctask-management-frontend%5C%5Csrc%5C%5Clib%5C%5Csettings%5C%5Cset-settings.ts%22%2C%5B%22setSettings%22%5D%5D%5D&__client_imported__=true!",
+        "app/_not-found/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5Coumayma-assignment%5C%5Ctask-management-frontend%5C%5Csrc%5C%5Clib%5C%5Cauth%5C%5Cset-auth.ts%22%2C%5B%22setAuth%22%5D%5D%5D&__client_imported__=true!",
+        "app/auth/sign-in/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5Coumayma-assignment%5C%5Ctask-management-frontend%5C%5Csrc%5C%5Clib%5C%5Cauth%5C%5Cset-auth.ts%22%2C%5B%22setAuth%22%5D%5D%5D&__client_imported__=true!",
+        "app/(auth)/errors/not-authorized/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5Coumayma-assignment%5C%5Ctask-management-frontend%5C%5Csrc%5C%5Clib%5C%5Cauth%5C%5Cset-auth.ts%22%2C%5B%22setAuth%22%5D%5D%2C%5B%22D%3A%5C%5Coumayma-assignment%5C%5Ctask-management-frontend%5C%5Csrc%5C%5Clib%5C%5Csettings%5C%5Cset-settings.ts%22%2C%5B%22setSettings%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/(auth)/page": "action-browser",
+        "app/_not-found/page": "action-browser",
+        "app/auth/sign-in/page": "action-browser",
+        "app/(auth)/errors/not-authorized/page": "action-browser"
+      }
+    },
+    "8a9224070741c823bba7b936f16876c2c87f4cce": {
+      "workers": {
+        "app/(auth)/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5Coumayma-assignment%5C%5Ctask-management-frontend%5C%5Csrc%5C%5Clib%5C%5Cauth%5C%5Cset-auth.ts%22%2C%5B%22setAuth%22%5D%5D%2C%5B%22D%3A%5C%5Coumayma-assignment%5C%5Ctask-management-frontend%5C%5Csrc%5C%5Clib%5C%5Csettings%5C%5Cset-settings.ts%22%2C%5B%22setSettings%22%5D%5D%5D&__client_imported__=true!",
+        "app/(auth)/errors/not-authorized/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22D%3A%5C%5Coumayma-assignment%5C%5Ctask-management-frontend%5C%5Csrc%5C%5Clib%5C%5Cauth%5C%5Cset-auth.ts%22%2C%5B%22setAuth%22%5D%5D%2C%5B%22D%3A%5C%5Coumayma-assignment%5C%5Ctask-management-frontend%5C%5Csrc%5C%5Clib%5C%5Csettings%5C%5Cset-settings.ts%22%2C%5B%22setSettings%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/(auth)/page": "action-browser",
+        "app/(auth)/errors/not-authorized/page": "action-browser"
+      }
+    }
+  },
+  "edge": {},
+  "encryptionKey": "+mdmsPZIbtlqS6H9cx1Lc3TUYVaPIrBJfmvuxZuavK4="
+}
