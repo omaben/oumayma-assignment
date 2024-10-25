@@ -21,25 +21,25 @@ export class TasksService {
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) { }
 
-  async create(createTaskDto: CreateTaskDto, by: UserDocument,) {
+  async create(createTaskDto: CreateTaskDto, by: UserDocument) {
     try {
-
       const createdTask = await this.taskModel.create({
         ...createTaskDto,
         status: createTaskDto.status ?? TaskStatus.NOT_STARTED,  // Set default status if not provided
         createdBy: new Types.ObjectId(by._id.toString()),
-        isDeleted: false
+        isDeleted: false,
       });
-
+  
       this.logger.debug({
         type: 'TasksServices',
         title: 'addTask',
         message: `Add new task.`,
         tag: `task,addTask,add,`,
         meta: {
-          createTaskDto
-        }
-      })
+          createTaskDto,
+        },
+      });
+      
       return createdTask;
     } catch (err) {
       this.logger.error({
@@ -50,12 +50,14 @@ export class TasksService {
         meta: {
           createTaskDto,
           errorMessage: err.message,
-          stack: err.stack
-        }
-      })
-      return ErrorFunction(err)
+          stack: err.stack,
+        },
+      });
+      
+      throw new BadRequestException(err.message); 
     }
   }
+  
 
 
   async list(findTaskDto: TaskListDto, user: UserDocument): Promise<{
@@ -124,7 +126,7 @@ export class TasksService {
           stack: error.stack
         }
       })
-      throw new BadRequestException();
+      throw new BadRequestException(error.message); 
     }
   }
 
