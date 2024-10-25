@@ -7,6 +7,7 @@ export const paths = {
   api: {
     login: '/api/auth/login',
     me: '/api/users/me',
+    tasksList: '/api/tasks/list',
   },
   dashboard: {
     home: '/',

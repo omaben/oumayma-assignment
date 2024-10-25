@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import {  authSdk } from 'task-management-sdk/dist';
-import { AuthLoginDto } from 'task-management-sdk/dist/dto/auth-login.dto';
+import { taskManagement } from 'task-management-sdk/dist';
+import { AuthLoginDto } from 'task-management-sdk/dist/auth/dto/auth-login.dto';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { password, username }: AuthLoginDto = req.body; // Retrieve the token from the request body
@@ -9,8 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         password
     }
     try {
-        const response = await authSdk.login(dto);
-        console.log(response)
+        const response = await taskManagement.auth.login(dto);
         res.status(200).json(response);
     } catch (error: any) {
         console.log(error, 'test');

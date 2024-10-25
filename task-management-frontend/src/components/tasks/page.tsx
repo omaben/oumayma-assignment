@@ -1,13 +1,13 @@
-import * as React from 'react';
-import type { Metadata } from 'next';
+'use client';
 
-import { config } from '@/config';
+import * as React from 'react';
+
 import { dayjs } from '@/lib/dayjs';
-import { Column, Task } from './types';
+import { tasksData } from '@/lib/tasks/tasks';
+import { DefaultLimit, TaskStatus } from '@/types/common';
 import { TasksProvider } from './tasks-context';
 import { TasksView } from './tasks-view';
-
-export const metadata = { title: `Tasks | Dashboard | ${config.site.name}` } satisfies Metadata;
+import { Column, Task, taskSDK } from './types';
 
 const columns = [
   { id: 'COL-001', name: 'Todo', taskIds: ['TSK-001', 'TSK-002'] },
@@ -15,110 +15,81 @@ const columns = [
   { id: 'COL-003', name: 'Done', taskIds: ['TSK-003', 'TSK-004'] },
 ] satisfies Column[];
 
-const tasks = [
-  {
-    id: 'TSK-001',
-    author: { id: 'USR-000', name: 'Sofia Rivers', username: 'sofia.rivers', avatar: '/assets/avatar.png' },
-    title: 'Update the customer API for payments',
-    description: 'Stripe has a new API version, we need to update it to the latest version',
-    columnId: 'COL-001',
-    createdAt: dayjs().subtract(8, 'day').toDate(),
-    labels: ['Business', 'Design'],
-    subscribed: true,
-    dueDate: dayjs().add(7, 'day').toDate(),
-    assignees: [{ id: 'USR-007', name: 'Nasimiyu Danai', username: 'nasimiyu.danai', avatar: '/assets/avatar-7.png' }],
-    attachments: [
-      {
-        id: 'ATT-001',
-        name: 'image-abstract-1.png',
-        extension: 'png',
-        url: '/assets/image-abstract-1.png',
-        size: '24.8 KB',
-      },
-    ],
-    subtasks: [
-      { id: 'STSK-001', title: 'Create a logo', done: true },
-      { id: 'STSK-002', title: 'Create text styles', done: true },
-      { id: 'STSK-003', title: 'Create color styles', done: true },
-      { id: 'STSK-004', title: 'Create effect styles', done: false },
-      { id: 'STSK-005', title: 'Create multiple elements', done: false },
-    ],
-    comments: [
-      {
-        id: 'MSG-001',
-        author: { id: 'USR-007', name: 'Nasimiyu Danai', username: 'nasimiyu.danai', avatar: '/assets/avatar-7.png' },
-        createdAt: dayjs().subtract(5, 'day').toDate(),
-        content: 'Hi, I have updated the API to the latest version.',
-        comments: [
-          {
-            id: 'MSG-002',
-            author: { id: 'USR-000', name: 'Sofia Rivers', username: 'sofia.rivers', avatar: '/assets/avatar.png' },
-            createdAt: dayjs().subtract(4, 'day').toDate(),
-            content: 'Great! Thanks for the update.',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'TSK-002',
-    author: { id: 'USR-005', name: 'Fran Perez', username: 'fran.perez', avatar: '/assets/avatar-5.png' },
-    title: 'Fix the responsive issues on the home page',
-    description: 'On mobile devices it looks a bit off, need to fix it',
-    columnId: 'COL-001',
-    createdAt: dayjs().subtract(2, 'day').toDate(),
-    dueDate: dayjs().add(6, 'day').toDate(),
-    subscribed: true,
-    assignees: [
-      { id: 'USR-005', name: 'Fran Perez', username: 'fran.perez', avatar: '/assets/avatar-5.png' },
-      { id: 'USR-007', name: 'Nasimiyu Danai', username: 'nasimiyu.danai', avatar: '/assets/avatar-7.png' },
-    ],
-    attachments: [],
-    subtasks: [],
-    comments: [],
-  },
-  {
-    id: 'TSK-003',
-    author: { id: 'USR-009', name: 'Marcus Finn', username: 'marcus.finn', avatar: '/assets/avatar-9.png' },
-    title: 'Setup onboarding tour for new users',
-    columnId: 'COL-003',
-    createdAt: dayjs().subtract(3, 'day').toDate(),
-    assignees: [
-      { id: 'USR-003', name: 'Carson Darrin', username: 'carson.darrin', avatar: '/assets/avatar-3.png' },
-      { id: 'USR-000', name: 'Sofia Rivers', username: 'sofia.rivers', avatar: '/assets/avatar.png' },
-    ],
-    attachments: [],
-    subtasks: [
-      { id: 'STSK-006', title: 'Create a new user flow', done: true },
-      { id: 'STSK-008', title: 'Create an organization settings step', done: false },
-    ],
-    comments: [],
-  },
-  {
-    id: 'TSK-004',
-    author: { id: 'USR-003', name: 'Carson Darrin', username: 'carson.darrin', avatar: '/assets/avatar-3.png' },
-    title: 'Follow up with Devias team',
-    description: 'We need to finish the project as soon as possible',
-    columnId: 'COL-003',
-    createdAt: dayjs().subtract(3, 'day').toDate(),
-    subscribed: true,
-    assignees: [{ id: 'USR-009', name: 'Marcus Finn', username: 'marcus.finn', avatar: '/assets/avatar-9.png' }],
-    attachments: [],
-    subtasks: [],
-    comments: [
-      {
-        id: 'MSG-003',
-        author: { id: 'USR-003', name: 'Carson Darrin', username: 'carson.darrin', avatar: '/assets/avatar-3.png' },
-        createdAt: dayjs().subtract(2, 'day').toDate(),
-        content: 'Marcus, can you please follow up with the Devias team?',
-      },
-    ],
-  },
-] satisfies Task[];
-
 export default function TaskPage(): React.JSX.Element {
+  const [rows, setRows] = React.useState<Task[]>([]);
+
+  const [columns, setColumns] = React.useState<Column[]>([]);
+  const [limit, setLimit] = React.useState<number>(DefaultLimit);
+  const [page, setPage] = React.useState<number>(0);
+  const [dataCount, setDataCount] = React.useState<number>(0);
+
+  const fetchTaskList = async (pageData: number, limitData: number) => {
+    setRows([]);
+
+    const post: any = {
+      find: {}
+    };
+
+
+    const { data, error } = await tasksData.list(post);
+    if (error || !data?.success) {
+
+    } else if (data?.success && data?.tasks) {
+
+      const dataRows: Task[] = []
+      data?.tasks?.map((task: taskSDK) => {
+        dataRows.push({
+          id: task._id,
+          author: task.createdBy as any || {},
+          title: task.title,
+          description: task.description,
+          columnId: task.status,
+          createdAt: dayjs().subtract(3, 'day').toDate(),
+          subscribed: true,
+          assignees: task.assignee as any || [],
+          attachments: [],
+          subtasks: [],
+          comments: [
+          ],
+        })
+      })
+      setRows(dataRows);
+      const columnsData: { id: string, name: string, taskIds: string[] }[] = [];
+      columnsData.push({
+        id: TaskStatus.NOT_STARTED,
+        name: 'To do',
+        taskIds: data?.tasks
+          .filter((item: any) => item.status === TaskStatus.NOT_STARTED) // Filter tasks by status
+          .map((item: any) => item._id)
+      })
+      columnsData.push({
+        id: TaskStatus.IN_PROGRESS,
+        name: 'Progress',
+        taskIds: data?.tasks
+          .filter((item: any) => item.status === TaskStatus.IN_PROGRESS) // Filter tasks by status
+          .map((item: any) => item._id)
+      })
+      columnsData.push({
+        id: TaskStatus.COMPLETED,
+        name: 'Done',
+        taskIds: data?.tasks
+          .filter((item: any) => item.status === TaskStatus.COMPLETED) // Filter tasks by status
+          .map((item: any) => item._id)
+      })
+      console.log(columnsData)
+      setColumns(columnsData as Column[])
+      setDataCount(data?.count || 0);
+    }
+
+  };
+
+  React.useEffect(() => {
+    fetchTaskList(page, limit);
+  }, [
+    page, limit
+  ]);
   return (
-    <TasksProvider columns={columns} tasks={tasks}>
+    <TasksProvider columns={columns} tasks={rows}>
       <TasksView />
     </TasksProvider>
   );

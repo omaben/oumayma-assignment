@@ -1,7 +1,5 @@
-import { UserRole } from "../../enum/user-role.enum";
-import { BaseSuccessApiResponse } from "./base-success-api-response.interface";
-import { userResponseInterface } from "./user-response.interface";
+import { UserResponseInterface } from "./user-response.interface";
 
-export interface loginResponseInterface extends userResponseInterface {
+export interface LoginResponseInterface extends UserResponseInterface {
     token: string;
 }

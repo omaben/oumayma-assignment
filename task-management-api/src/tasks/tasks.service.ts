@@ -92,7 +92,11 @@ export class TasksService {
         ...filter
       }).select({
         __v: 0
-      }).sort({ 'updatedAt': -1 })
+      })
+      .populate('assignee', 'username _id role') // Populate 'name', '_id', and 'role' from User model
+      .populate('createdBy', 'username _id role') // Populate 'name', '_id', and 'role' from User model
+      .populate('updatedBy', 'username _id role') // Populate 'name', '_id', and 'role' from User model
+      .sort({ 'updatedAt': -1 })
         .skip(
           (page - 1) * limit
         ).limit(

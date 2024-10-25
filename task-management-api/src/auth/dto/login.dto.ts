@@ -13,6 +13,6 @@ export class LoginDto {
   @MinLength(6)
   @MaxLength(20)
   @IsNotEmpty()
-  @ApiProperty({ example: '123456' })
+  @ApiProperty({ example: 'admin123' })
   readonly password: string;
 }

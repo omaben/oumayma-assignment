@@ -90,7 +90,7 @@
     "sonner": "1.4.1",
     "stylis": "4.3.1",
     "stylis-plugin-rtl": "2.1.1",
-    "task-management-sdk": "file:../task-management-sdk/dist",
+    "task-management-sdk": "file:../task-management-sdk",
     "typescript-cookie": "^1.0.6",
     "zod": "3.22.4"
   },

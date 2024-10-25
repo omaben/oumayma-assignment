@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { listTasksResponseInterface } from './interfaces/list-tasks-response.interface';
+import { ListTasksResponseInterface } from './interfaces/list-tasks-response.interface';
 
-export class Task {
+export class TaskService {
     constructor(private readonly baseUrl: string) { }
 
-    async list(token: string, dto: any): Promise<listTasksResponseInterface> {
+    async list(token: string, dto: any): Promise<ListTasksResponseInterface> {
         try {
             const response = await axios.post(`${this.baseUrl}/tasks/list`, dto, {
                 headers: {
@@ -12,10 +12,8 @@ export class Task {
                 },
             });
             return {
-                data: {
-                    count: response.data.count || 0,
-                    tasks: response.data.tasks || []
-                },
+                count: response.data.count || 0,
+                tasks: response.data.tasks || [],
                 success: true,
                 message: 'Get task list successful'
             };

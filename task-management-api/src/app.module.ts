@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TasksModule } from './tasks/tasks.module';
+import { UserSeedService } from './app.service';
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import { TasksModule } from './tasks/tasks.module';
     UsersModule,
     TasksModule
   ],
-  providers: [Logger],
+  providers: [Logger, UserSeedService],
 })
 export class AppModule { }

@@ -1,4 +1,4 @@
-export declare class AuthLoginDto {
-    username: string;
-    password: string;
+export class AuthLoginDto {
+    username: string = '';
+    password: string = '';
 }

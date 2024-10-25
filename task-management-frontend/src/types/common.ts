@@ -21,3 +21,8 @@ export const initialStateTimezone: CurrentTimezoneState = {
     timezoneOffset: 0,
     abbrev: 'GMT'
 }
+export enum TaskStatus {
+    NOT_STARTED = 'not_started',
+    IN_PROGRESS = 'in_progress',
+    COMPLETED = 'completed',
+}

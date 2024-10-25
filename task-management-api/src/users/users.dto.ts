@@ -23,12 +23,12 @@ export class FindUserDto {
     @IsString()
     @ApiProperty()
     @IsOptional()
-    username: string;
+    username?: string;
 
     @IsString()
     @ApiProperty()
     @IsOptional()
-    role: Role;
+    role?: Role;
 }
 
 

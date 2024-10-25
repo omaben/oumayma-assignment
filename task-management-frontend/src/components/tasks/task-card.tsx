@@ -20,7 +20,7 @@ export interface TaskCardProps {
 }
 
 export function TaskCard({ onOpen, task }: TaskCardProps): React.JSX.Element {
-  const { assignees = [], attachments = [], comments = [], description, dueDate, id, subtasks = [], title } = task;
+  const { assignees, attachments = [], comments = [], description, dueDate, id, subtasks = [], title } = task;
 
   return (
     <Card>
@@ -46,15 +46,9 @@ export function TaskCard({ onOpen, task }: TaskCardProps): React.JSX.Element {
         </Stack>
         <Stack direction="row" spacing={2} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
-            {assignees.length ? (
-              <AvatarGroup sx={{ flex: '1 1 auto' }}>
-                {assignees.map(
-                  (assignee): React.JSX.Element => (
-                    <Avatar key={assignee.id} src={assignee.avatar} />
-                  )
-                )}
-              </AvatarGroup>
-            ) : null}
+            {assignees && (
+              <Avatar key={assignees._id} src={assignees.avatar} />
+            )}
           </div>
           <Stack direction="row" spacing={1}>
             {attachments.length ? <LinkIcon fontSize="var(--icon-fontSize-md)" /> : null}

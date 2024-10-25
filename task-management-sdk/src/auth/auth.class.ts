@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { loginResponseInterface } from '../lib/interfaces/login-response.interface';
-import { userResponseInterface } from '../lib/interfaces/user-response.interface';
+import { LoginResponseInterface } from '../lib/interfaces/login-response.interface';
+import { UserResponseInterface } from '../lib/interfaces/user-response.interface';
 import { AuthLoginDto } from './dto/auth-login.dto';
 
-export class Auth {
+export class AuthService {
     constructor(private readonly baseUrl: string) { }
 
-    async login(dto: AuthLoginDto): Promise<loginResponseInterface> {
+    async login(dto: AuthLoginDto): Promise<LoginResponseInterface> {
         try {
             const response = await axios.post(`${this.baseUrl}/auth/login`, dto);
             return {
@@ -23,7 +23,7 @@ export class Auth {
         }
     }
 
-    async getProfile(token: string): Promise<userResponseInterface> {
+    async getProfile(token: string): Promise<UserResponseInterface> {
         try {
             const response = await axios.get(`${this.baseUrl}/users/profile`, {
                 headers: {

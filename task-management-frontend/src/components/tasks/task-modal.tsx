@@ -51,7 +51,7 @@ export function TaskModal({
   task,
 }: TaskModalProps): React.JSX.Element {
   const {
-    assignees = [],
+    assignees,
     attachments = [],
     comments = [],
     labels = [],
@@ -117,15 +117,20 @@ export function TaskModal({
                 </Stack>
                 <Stack spacing={1}>
                   <Typography variant="subtitle2">Assignees</Typography>
+
                   <Stack direction="row" spacing={2} sx={{ alignItems: 'center', flexWrap: 'wrap' }}>
-                    {assignees.map(
-                      (assignee): React.JSX.Element => (
-                        <Avatar key={assignee.id} src={assignee.avatar} />
-                      )
-                    )}
-                    <IconButton>
-                      <PlusIcon />
-                    </IconButton>
+                    {
+                      assignees ? <>
+                        <Avatar key={assignees._id} src={assignees.avatar} />
+                        <Typography color="text.secondary" variant="body2">
+                          @{assignees.username}
+                        </Typography>
+                      </> : <IconButton>
+                        <PlusIcon />
+                      </IconButton>
+                    }
+
+
                   </Stack>
                 </Stack>
                 <Stack spacing={1}>

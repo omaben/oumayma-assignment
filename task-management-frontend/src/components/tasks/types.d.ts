@@ -1,3 +1,5 @@
+import { Interface } from "readline/promises";
+
 export interface DnDData {
   type: 'column' | 'task';
 }
@@ -8,6 +10,16 @@ export interface Column {
   taskIds: string[];
 }
 
+export interface taskSDK {
+  _id: string;
+  title: string;
+  description: string;
+  date: Date;
+  status: TaskStatus;
+  assignee: any;
+  createdBy: any;
+  updatedBy: any;
+}
 export interface Task {
   id: string;
   author: { id: string; name: string; username: string; avatar?: string };
@@ -18,15 +30,14 @@ export interface Task {
   labels?: string[];
   dueDate?: Date;
   subscribed?: boolean;
-  assignees?: Assignee[];
+  assignees?: Assignee;
   attachments?: Attachment[];
   subtasks?: Subtask[];
   comments?: Comment[];
 }
 
 export interface Assignee {
-  id: string;
-  name: string;
+  _id: string;
   username: string;
   avatar?: string;
 }
