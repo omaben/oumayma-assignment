@@ -135,4 +135,6 @@ describe('TasksService', () => {
       expect(logger.error).toHaveBeenCalled();
     });
   });
+
+  // TODO (oumayma): add more tests for other methods
 });
