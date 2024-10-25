@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards, Res, Body, BadRequestException, Get, UnauthorizedException, Req } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/users/interfaces/user.interface';
 import { UsersService } from 'src/users/users.service';

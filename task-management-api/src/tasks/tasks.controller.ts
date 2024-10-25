@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { IpGuard } from 'src/auth/ip.guard';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -15,6 +14,7 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { Task } from './schemas/task.schema';
 import { TasksService } from './tasks.service';
 import { AssigneTaskDto } from './dto/assigne-task';
+import { GetUser } from 'src/auth/decorators/get-user.decorator';
 
 @ApiTags('Tasks')
 @Controller('tasks')
